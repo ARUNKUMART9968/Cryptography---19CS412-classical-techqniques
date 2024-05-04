@@ -1,638 +1,582 @@
 # Cryptography---19CS412-classical-techqniques
 
+## CEASER CIPHER:
 
-# Caeser Cipher
-Caeser Cipher using with different key values
+AIM : 
 
-# AIM:# Cryptography---19CS412-classical-techqniques
+To implement the simple substitution technique named Caesar cipher using C
+language.
 
 
-# Caeser Cipher
-Caeser Cipher using with different key values
+ALGORITHM :
 
-# AIM:
+Step 1 : 
 
-To develop a simple C program to implement Caeser Cipher.
+Read the plain text from the user.
 
-## DESIGN STEPS:
+Step 2 :
 
-### Step 1:
+ Read the key value from the user
 
-Design of Caeser Cipher algorithnm 
+Step 3 :
 
-### Step 2:
+If the key is positive then encrypt the text by adding the key with
+each character in the plain text
 
-Implementation using C or pyhton code
+Step 4 :
 
-### Step 3:
+Else subtract the key from the plain text.
 
-Testing algorithm with different key values. 
+Step 5 :
 
-## PROGRAM:
+Display the cipher text obtained above.
+
+
+PROGRAM : 
+
 ```
-#include <stdio.h>
+#include<stdio.h>
 #include <string.h>
-
+#include<conio.h>
+#include <ctype.h>
 int main()
- {
-    int key;
-    char s[1000];
-
-    printf("Enter a plaintext to encrypt:\n");
-    fgets(s, sizeof(s), stdin);
-    printf("Enter key:\n");
-    scanf("%d", &key);
-
-    int n = strlen(s);
-
-    for (int i = 0; i < n; i++) 
-    {
-        char c = s[i];
-        if (c >= 'a' && c <= 'z') 
-        {
-            s[i] = 'a' + (c - 'a' + key) % 26;
-        }
-        else if (c >= 'A' && c <= 'Z')
-        {
-            s[i] = 'A' + (c - 'A' + key) % 26;
-        }
-    }
-    printf("Encrypted message: %s\n", s);
-
-    for (int i = 0; i < n; i++)
-    {
-        char c = s[i];
-        if (c >= 'a' && c <= 'z') 
-        {
-            s[i] = 'a' + (c - 'a' - key + 26) % 26; 
-        }
-        else if (c >= 'A' && c <= 'Z')
-        {
-            s[i] = 'A' + (c - 'A' - key + 26) % 26; 
-        }
-    }
-    printf("Decrypted message: %s\n", s);
-
-    return 0;
+{
+char plain[10], cipher[10];
+int key,i,length;
+int result;
+printf("\n Enter the plain text:");
+scanf("%s", plain);
+printf("\n Enter the key value:");
+scanf("%d", &key);
+printf("\n \n \t PLAIN TEXt: %s",plain);
+printf("\n \n \t ENCRYPTED TEXT: ");
+for(i = 0, length = strlen(plain); i < length; i++)
+{
+cipher[i]=plain[i] + key;
+if (isupper(plain[i]) && (cipher[i] > 'Z'))
+cipher[i] = cipher[i] - 26;
+if (islower(plain[i]) && (cipher[i] > 'z'))
+cipher[i] = cipher[i] - 26;
+printf("%c", cipher[i]);
+}
+printf("\n \n \t AFTER DECRYPTION : ");
+for(i=0;i<length;i++)
+{
+plain[i]=cipher[i]-key;
+if(isupper(cipher[i])&&(plain[i]<'A'))
+plain[i]=plain[i]+26;
+if(islower(cipher[i])&&(plain[i]<'a'))
+plain[i]=plain[i]+26;
+printf("%c",plain[i]);
+}
+return 0;
 }
 
+
 ```
 
-## OUTPUT:
-![image](https://github.com/praveenvenkatt/Cryptography---19CS412-classical-techqniques/assets/119560117/aaa62c2e-638d-426d-85c4-8204164db251)
+OUTPUT :
+
+<img width="365" alt="image" src="https://github.com/AlluguriSrikrishnateja/cryptography_19CS412_classical_techniques/assets/118343892/d38dd9a3-4ac3-421b-af80-0240df7aa8c9">
 
 
 
-## RESULT:
-The program is executed successfully
+RESULT : 
 
----------------------------------
+Thus the implementation of Caesar cipher had been executed successfully
 
-# PlayFair Cipher
-Playfair Cipher using with different key values
 
-# AIM:
 
-To develop a simple C program to implement PlayFair Cipher.
 
-## DESIGN STEPS:
+## PLAYFAIR CIPHER: 
 
-### Step 1:
+AIM :
 
-Design of PlayFair Cipher algorithnm 
+To write a C program to implement the Playfair Substitution technique.
 
-### Step 2:
+ALGORITHM :
 
-Implementation using C or pyhton code
+Step 1 :
 
-### Step 3:
+Read the plain text from the user
 
-Testing algorithm with different key values. 
+Step 2 :
 
-## PROGRAM:
+Read the keyword from the user 
+
+Step 3 :
+
+ Arrange the keyword without duplicates in a 5*5 matrix in the row
+ 
+order and fill the remaining cells with missed out letters in
+
+alphabetical order. Note that ‘i’ and ‘j’ takes the same cell. 
+
+Step 4 :
+
+Group the plain text in pairs and match the corresponding corner
+
+letters by forming a rectangular grid.
+
+step 5 :
+
+Display the obtained cipher text
+
+PROGRAM : 
+
 ```
-
-
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
 #include<ctype.h>
 #define MX 5
-
-void playfair(char ch1, char ch2, char key[MX][MX])
+void playfair(char ch1,char ch2, char key[MX][MX])
 {
-    int i, j, w, x, y, z;
-    FILE *out;
-    if ((out = fopen("cipher.txt", "a+")) == NULL)
-    {
-        printf("File Corrupted.");
-    }
-    for (i = 0; i < MX; i++)
-    {
-        for (j = 0; j < MX; j++)
-        {
-            if (ch1 == key[i][j])
-            {
-                w = i;
-                x = j;
-            }
-            else if (ch2 == key[i][j])
-            {
-                y = i;
-                z = j;
-            }
-        }
-    }
-    if (w == y)
-    {
-        x = (x + 1) % 5;
-        z = (z + 1) % 5;
-        printf("%c%c", key[w][x], key[y][z]);
-        fprintf(out, "%c%c", key[w][x], key[y][z]);
-    } 
-    else if (x == z) 
-    {
-        w = (w + 1) % 5;
-        y = (y + 1) % 5;
-        printf("%c%c", key[w][x], key[y][z]);
-        fprintf(out, "%c%c", key[w][x], key[y][z]);
-    } 
-    else 
-    {
-        printf("%c%c", key[w][z], key[y][x]);
-        fprintf(out, "%c%c", key[w][z], key[y][x]);
-    }
-    fclose(out);
-}
-
-int main() 
+int i,j,w,x,y,z;
+FILE *out;
+if((out=fopen("cipher.txt","a+"))==NULL)
 {
-    int i, j, k = 0, l, m = 0, n;
-    char key[MX][MX], keyminus[25], keystr[10], str[25] = {0};
-    char alpa[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    printf("\nEnter key:");
-    gets(keystr);
-    printf("\nEnter the plain text:");
-    gets(str);
-    n = strlen(keystr);
-    for (i = 0; i < n; i++) 
-    {
-        if (keystr[i] == 'j') keystr[i] = 'i';
-        else if (keystr[i] == 'J') keystr[i] = 'I';
-        keystr[i] = toupper(keystr[i]);
-    }
-    for (i = 0; i < strlen(str); i++) {
-        if (str[i] == 'j') str[i] = 'i';
-        else if (str[i] == 'J') str[i] = 'I';
-        str[i] = toupper(str[i]);
-    }
-    j = 0;
-    for (i = 0; i < 26; i++)
-    {
-        for (k = 0; k < n; k++)
-        {
-            if (keystr[k] == alpa[i]) break;
-            else if (alpa[i] == 'J') break;
-        }
-        if (k == n)
-        {
-            keyminus[j] = alpa[i];
-            j++;
-        }
-    }
-    k = 0;
-    for (i = 0; i < MX; i++) 
-    {
-        for (j = 0; j < MX; j++)
-        {
-            if (k < n)
-            {
-                key[i][j] = keystr[k];
-                k++;
-            } 
-            else
-            {
-                key[i][j] = keyminus[m];
-                m++;
-            }
-            printf("%c ", key[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n\nEntered text :%s\nCipher Text :",str);
-    for (i = 0; i < strlen(str); i++) 
-    {
-        if (str[i] == 'J') str[i] = 'I';
-        if (str[i + 1] == '\0') playfair(str[i], 'X', key);
-        else
-        {
-            if (str[i + 1] == 'J') str[i + 1] = 'I';
-            if (str[i] == str[i + 1]) playfair(str[i], 'X', key);
-            else 
-            {
-                playfair(str[i], str[i + 1], key);
-                i++;
-            }
-        }
-  
-    }
-     printf("\nDecrypted text:%s",str);
-    return 0;
+printf("File Corrupted.");
 }
-
-```
-
-## OUTPUT:
-![image](https://github.com/praveenvenkatt/Cryptography---19CS412-classical-techqniques/assets/119560117/aa6282e9-986b-44a5-a18f-ca5f88a26914)
-
-
-## RESULT:
-The program is executed successfully
-
-
----------------------------
-
-# Hill Cipher
-Hill Cipher using with different key values
-
-# AIM:
-
-To develop a simple C program to implement Hill Cipher.
-
-## DESIGN STEPS:
-
-### Step 1:
-
-Design of Hill Cipher algorithnm 
-
-### Step 2:
-
-Implementation using C or pyhton code
-
-### Step 3:
-
-Testing algorithm with different key values. 
-
-## PROGRAM:
-```
-#include <stdio.h>
-
-int main() 
+for(i=0;i<MX;i++)
 {
-    unsigned int key[3][3] = {{6, 24, 1}, {13, 16, 10}, {20, 17, 15}};
-    unsigned int inverseKey[3][3] = {{8, 5, 10}, {21, 8, 21}, {21, 12, 8}};
-
-    char msg[4];
-    unsigned int enc[3] = {0}, dec[3] = {0};
-
-    printf("Enter plain text: ");
-    scanf("%3s", msg);
-
-    for (int i = 0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-            enc[i] += key[i][j] * (msg[j] - 'A') % 26;
-
-    printf("Encrypted Cipher Text: %c%c%c\n", enc[0] % 26 + 'A', enc[1] % 26 + 'A', enc[2] % 26 + 'A');
-
-    for (int i = 0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-            dec[i] += inverseKey[i][j] * enc[j] % 26;
-
-    printf("Decrypted Cipher Text: %c%c%c\n", dec[0] % 26 + 'A', dec[1] % 26 + 'A', dec[2] % 26 + 'A');
-
-    return 0;
-}
-```
-## OUTPUT:
-![image](https://github.com/praveenvenkatt/Cryptography---19CS412-classical-techqniques/assets/119560117/9f2da3a2-637f-4ef1-b895-0e8f86f3035c)
-
-
-## RESULT:
-The program is executed successfully
-
--------------------------------------------------
-
-# Vigenere Cipher
-Vigenere Cipher using with different key values
-
-# AIM:
-
-To develop a simple C program to implement Vigenere Cipher.
-
-## DESIGN STEPS:
-
-### Step 1:
-
-Design of Vigenere Cipher algorithnm 
-
-### Step 2:
-
-Implementation using C or pyhton code
-
-### Step 3:
-
-Testing algorithm with different key values. 
-
-## PROGRAM:
-```
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-
-#define MAX_LENGTH 100
-
-int main() 
+for(j=0;j<MX;j++)
 {
-    char input[MAX_LENGTH];
-    char key[MAX_LENGTH];
-    char result[MAX_LENGTH];
-
-    printf("Enter the text to encrypt: ");
-    fgets(input, MAX_LENGTH, stdin);
-    input[strcspn(input, "\n")] = '\0'; 
-
-    printf("Enter the key: ");
-    fgets(key, MAX_LENGTH, stdin);
-    key[strcspn(key, "\n")] = '\0'; 
-
-    int inputLength = strlen(input);
-    int keyLength = strlen(key);
-
-    for (int i = 0, j = 0; i < inputLength; ++i) 
-    {
-        char currentChar = input[i];
-
-        if (isalpha(currentChar))
-        {
-            int shift = toupper(key[j % keyLength]) - 'A';
-            int base = isupper(currentChar) ? 'A' : 'a';
-
-            result[i] = ((currentChar - base + shift + 26) % 26) + base;
-            ++j;
-        }
-        else
-        {
-            result[i] = currentChar;
-        }
-    }
-
-    result[inputLength] = '\0';
-    printf("Encrypted text: %s\n", result);
-
-    for (int i = 0, j = 0; i < inputLength; ++i) 
-    {
-        char currentChar = result[i];
-
-        if (isalpha(currentChar)) 
-        {
-            int shift = toupper(key[j % keyLength]) - 'A';
-            int base = isupper(currentChar) ? 'A' : 'a';
-
-            result[i] = ((currentChar - base - shift + 26) % 26) + base;
-            ++j;
-        }
-    }
-
-    result[inputLength] = '\0';
-    printf("Decrypted text: %s\n", result);
-
-    return 0;
+if(ch1==key[i][j])
+{
+w=i;
+x=j;
 }
+else if(ch2==key[i][j])
+{
+y=i;
+z=j;
+}}}
+//printf("%d%d %d%d",w,x,y,z);
+if(w==y)
+{
+x=(x+1)%5;z=(z+1)%5;
+printf("%c%c",key[w][x],key[y][z]);
+fprintf(out, "%c%c",key[w][x],key[y][z]);
+}
+else if(x==z)
+{
+w=(w+1)%5;y=(y+1)%5;
+printf("%c%c",key[w][x],key[y][z]);
+fprintf(out, "%c%c",key[w][x],key[y][z]);
+}
+else
+{
+printf("%c%c",key[w][z],key[y][x]);
+fprintf(out, "%c%c",key[w][z],key[y][x]);
+}
+fclose(out);
+}
+int main()
+{
+int i,j,k=0,l,m=0,n;
+char key[MX][MX],keyminus[25],keystr[10],str[25]={0};
+char
+alpa[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+printf("\nEnter key:");
+gets(keystr);
+printf("\nEnter the plain text:");
+gets(str);
+n=strlen(keystr);
+//convert the characters to uppertext
+for (i=0; i<n; i++)
+{
+if(keystr[i]=='j')keystr[i]='i';
+else if(keystr[i]=='J')keystr[i]='I';
+keystr[i] = toupper(keystr[i]);
+}
+//convert all the characters of plaintext to uppertext
+for (i=0; i<strlen(str); i++)
+{
+if(str[i]=='j')str[i]='i';
+else if(str[i]=='J')str[i]='I';
+str[i] = toupper(str[i]);
+}
+j=0;
+for(i=0;i<26;i++)
+{
+for(k=0;k<n;k++)
+{
+if(keystr[k]==alpa[i])
+break;
+else if(alpa[i]=='J')
+break;
+}
+if(k==n)
+{
+keyminus[j]=alpa[i];j++;
+}
+}
+//construct key keymatrix
+k=0;
+for(i=0;i<MX;i++)
+{
+for(j=0;j<MX;j++)
+{
+if(k<n)
+{
+key[i][j]=keystr[k];
+k++;}
+else
+{
+key[i][j]=keyminus[m];m++;
+}
+printf("%c ",key[i][j]);
+}
+printf("\n");
+}
+printf("\n\nEntered text :%s\nCipher Text :",str);
+for(i=0;i<strlen(str);i++)
+{
+if(str[i]=='J')str[i]='I';
+if(str[i+1]=='\0')
+playfair(str[i],'X',key);
+else
+{
+if(str[i+1]=='J')str[i+1]='I';
+if(str[i]==str[i+1])
+playfair(str[i],'X',key);
+else
+{
+playfair(str[i],str[i+1],key);
+i++;
+}}
+}
+return 0;
+}
+ 
+
 ```
 
-## OUTPUT:
-![image](https://github.com/praveenvenkatt/Cryptography---19CS412-classical-techqniques/assets/119560117/608e85b7-31e5-4808-95a3-e58faadfe118)
+OUTPUT :
+
+<img width="356" alt="image" src="https://github.com/AlluguriSrikrishnateja/cryptography_19CS412_classical_techniques/assets/118343892/dc34a668-eaa6-43ef-ad40-c2e971429816">
 
 
-## RESULT:
-The program is executed successfully
 
------------------------------------------------------------------------
+RESULT :
+ Thus the Playfair cipher substitution technique had been implemented successfully.
 
-# Rail Fence Cipher
-Rail Fence Cipher using with different key values
 
-# AIM:
 
-To develop a simple C program to implement Rail Fence Cipher.
+## HILL CIPHER 
 
-## DESIGN STEPS:
+AIM : 
 
-### Step 1:
+To write a C program to implement the hill cipher substitution techniques.
 
-Design of Rail Fence Cipher algorithnm 
 
-### Step 2:
+ALGORITHM :
 
-Implementation using C or pyhton code
+Step 1 :
 
-### Step 3:
+Read the plain text and key from the user.
 
-Testing algorithm with different key values. 
+Step 2 :
 
-## PROGRAM:
+Split the plain text into groups of length three
+
+
+Step 3 :
+
+Arrange the keyword in a 3*3 matrix.
+
+Step 4 :
+
+Multiply the two matrices to obtain the cipher text of length three.
+
+Step 5 :
+
+Combine all these groups to get the complete cipher text.
+
+
+PROGRAM :
+
 ```
-
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
-
-int main()
+int main(){
+unsigned int a[3][3]={{6,24,1},{13,16,10},{20,17,15}};
+unsigned int b[3][3]={{8,5,10},{21,8,21},{21,12,8}};
+int i,j, t=0;
+unsigned int c[20],d[20];
+char msg[20];
+printf("Enter plain text: ");
+scanf("%s",msg);
+for(i=0;i<strlen(msg);i++)
 {
-    int i, j, k, l;
-    char a[20], c[20], d[20];
-
-    printf("\n\t\t RAIL FENCE TECHNIQUE");
-    printf("\n\nEnter the input string : ");
-    gets(a);
-    l = strlen(a);
-
-    for(i = 0, j = 0; i < l; i++)
-    {
-        if(i % 2 == 0)
-            c[j++] = a[i];
-    }
-    for(i = 0; i < l; i++)
-    {
-        if(i % 2 == 1)
-            c[j++] = a[i];
-    }
-    c[j] = '\0';
-
-    printf("\nCipher text after applying rail fence :");
-    printf("%s", c);
-
-    if(l % 2 == 0)
-        k = l / 2;
-    else
-        k = (l / 2) + 1;
-
-    for(i = 0, j = 0; i < k; i++)
-    {
-        d[j] = c[i];
-        j = j + 2;
-    }
-    for(i = k, j = 1; i < l; i++)
-    {
-        d[j] = c[i];
-        j = j + 2;
-    }
-    d[l] = '\0';
-
-    printf("\nText after decryption : ");
-    printf("%s", d);
-
-    return 0;
+c[i]=msg[i]-65;
+unsigned int a[3][3]={{6,24,1},{13,16,10},{20,17,15}};
+unsigned int b[3][3]={{8,5,10},{21,8,21},{21,12,8}};
+printf("%d ",c[i]);
+}
+for(i=0;i<3;i++)
+{ t=0;
+for(j=0;j<3;j++)
+{
+t=t+(a[i][j]*c[j]);
+}
+d[i]=t%26;
+}
+printf("\nEncrypted Cipher Text :");
+for(i=0;i<3;i++)
+printf(" %c",d[i]+65);
+for(i=0;i<3;i++)
+{
+t=0;
+for(j=0;j<3;j++)
+{
+t=t+(b[i][j]*d[j]);
+}
+c[i]=t%26;
+}
+printf("\nDecrypted Cipher Text :");
+for(i=0;i<3;i++)
+printf(" %c",c[i]+65);
+getch();
+return 0;
 }
 ```
 
-## OUTPUT:
-![image](https://github.com/praveenvenkatt/Cryptography---19CS412-classical-techqniques/assets/119560117/e634e969-1462-4899-b38d-509b66c24dfe)
+OUTPUT :
 
+<img width="299" alt="image" src="https://github.com/AlluguriSrikrishnateja/cryptography_19CS412_classical_techniques/assets/118343892/d729468c-607b-48cb-b16a-78c6ee4245f2">
 
 
-## RESULT:
-The program is executed successfully
-To develop a simple C program to implement Caeser Cipher.
 
-## DESIGN STEPS:
+RESULT :
 
-### Step 1:
+ Thus the hill cipher substitution technique had been implemented successfully
 
-Design of Caeser Cipher algorithnm 
 
-### Step 2:
 
-Implementation using C or pyhton code
+## Vigenere Cipher 
 
-### Step 3:
 
-Testing algorithm with different key values. 
+AIM : 
 
-## PROGRAM:
+To implement the Vigenere Cipher substitution technique using C program
 
-## OUTPUT:
 
-## RESULT:
-The program is executed successfully
+ALGORITHM :
 
----------------------------------
+Step 1 :
 
-# PlayFair Cipher
-Playfair Cipher using with different key values
+Arrange the alphabets in row and column of a 26*26 matrix
 
-# AIM:
+Step 2 : 
 
-To develop a simple C program to implement PlayFair Cipher.
+Circulate the alphabets in each row to position left such that the first letter
 
-## DESIGN STEPS:
+is attached to last.
 
-### Step 1:
+Step 3 :
 
-Design of PlayFair Cipher algorithnm 
+Repeat this process for all 26 rows and construct the final key matrix.
 
-### Step 2:
+Step 4 :
 
-Implementation using C or pyhton code
+The keyword and the plain text is read from the user.
 
-### Step 3:
+Step 5 :
 
-Testing algorithm with different key values. 
+The characters in the keyword are repeated sequentially so as to
 
-## PROGRAM:
+match with that of the plain text.
 
-## OUTPUT:
+Step  6 :
 
-## RESULT:
-The program is executed successfully
+ Pick the first letter of the plain text and that of the keyword as the row
+ 
+indices and column indices respectively.
 
+Step 7 :
 
----------------------------
+The junction character where these two meet forms the cipher character
 
-# Hill Cipher
-Hill Cipher using with different key values
+Step 8 :
 
-# AIM:
+Repeat the above steps to generate the entire cipher text.
 
-To develop a simple C program to implement Hill Cipher.
+PROGRAM :
 
-## DESIGN STEPS:
+```
+#include <stdio.h>
+#include<conio.h>
+#include <ctype.h>
+#include <string.h>
+void encipher();
+void decipher();
+int main()
+{
+int choice;
+while(1)
+{
+printf("\n1. Encrypt Text");
+printf("\n2. Decrypt Text");
+printf("\n3. Exit");
+printf("\n\nEnter Your Choice : ");
+scanf("%d",&choice);
+if(choice == 3)
+exit(0);
+else if(choice == 1)
+encipher();
+else if(choice == 2)
+decipher();
+else
+printf("Please Enter Valid Option.");
+}
+}
+void encipher()
+{
+unsigned int i,j;
+char input[50],key[10];
+printf("\n\nEnter Plain Text: ");
+scanf("%s",input);
+printf("\nEnter Key Value: ");
+scanf("%s",key);
+printf("\nResultant Cipher Text: ");
+for(i=0,j=0;i<strlen(input);i++,j++)
+{
+if(j>=strlen(key))
+{ j=0;
+}
+printf("%c",65+(((toupper(input[i])-65)+(toupper(key[j])-
+65))%26));
+}}
+void decipher()
+{
+unsigned int i,j;
+char input[50],key[10];
+int value;
+printf("\n\nEnter Cipher Text: ");
+scanf("%s",input);
+printf("\n\nEnter the key value: ");
+scanf("%s",key);
+for(i=0,j=0;i<strlen(input);i++,j++)
+{
+if(j>=strlen(key))
+{ j=0; }
+value = (toupper(input[i])-64)-(toupper(key[j])-64);
+if( value < 0)
+{ value = value * -1;
+}
+printf("%c",65 + (value % 26));
+}
+return 0;
+}
+```
+
+OUTPUT :
+
+<img width="383" alt="image" src="https://github.com/AlluguriSrikrishnateja/cryptography_19CS412_classical_techniques/assets/118343892/85dfb811-5c60-48fe-be02-504953d0fb47">
 
-### Step 1:
 
-Design of Hill Cipher algorithnm 
+RESULT :
 
-### Step 2:
+Thus , The program is executed perfectly and output is verified.
 
-Implementation using C or pyhton code
 
-### Step 3:
 
-Testing algorithm with different key values. 
+## Rail Fence Cipher
 
-## PROGRAM:
+AIM :
 
-## OUTPUT:
+To write a C program to implement the rail fence transposition technique.
 
-## RESULT:
-The program is executed successfully
 
--------------------------------------------------
+ALGORRITHM :
 
-# Vigenere Cipher
-Vigenere Cipher using with different key values
+Step 1 :
 
-# AIM:
+Read the Plain text.
 
-To develop a simple C program to implement Vigenere Cipher.
 
-## DESIGN STEPS:
+Step 2 :
 
-### Step 1:
+Arrange the plain text in row columnar matrix format
 
-Design of Vigenere Cipher algorithnm 
+Step 3 :
 
-### Step 2:
+Now read the keyword depending on the number of columns of the plain text
 
-Implementation using C or pyhton code
+Step 4 :
 
-### Step 3:
+Arrange the characters of the keyword in sorted order and the
 
-Testing algorithm with different key values. 
+corresponding columns of the plain text.
 
-## PROGRAM:
+Step 5 :
 
-## OUTPUT:
+Read the characters row wise or column wise in the former order to get the
 
-## RESULT:
-The program is executed successfully
+cipher text.
 
------------------------------------------------------------------------
 
-# Rail Fence Cipher
-Rail Fence Cipher using with different key values
 
-# AIM:
 
-To develop a simple C program to implement Rail Fence Cipher.
+PROGRAM :
 
-## DESIGN STEPS:
+```
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+int main()
+{
+int i,j,k,l;
+char a[20],c[20],d[20];
+printf("\n\t\t RAIL FENCE TECHNIQUE");
+printf("\n\nEnter the input string : ");
+gets(a);
+l=strlen(a);
+/Ciphering/
+for(i=0,j=0;i<l;i++)
+{
+if(i%2==0)
+c[j++]=a[i];
+}
+for(i=0;i<l;i++)
+{
+if(i%2==1)
+c[j++]=a[i];
+}
+c[j]='\0';
+printf("\nCipher text after applying rail fence :");
+printf("\n%s",c);
+/Deciphering/
+if(l%2==0)
+k=l/2;
+else
+k=(l/2)+1;
+for(i=0,j=0;i<k;i++)
+{
+d[j]=c[i];
+j=j+2;
+}
+for(i=k,j=1;i<l;i++)
+{
+d[j]=c[i];
+j=j+2;
+}
+d[l]='\0';
+printf("\nText after decryption : ");
+printf("%s",d);
+return 0;
+}
+```
 
-### Step 1:
+OUTPUT :
 
-Design of Rail Fence Cipher algorithnm 
+<img width="347" alt="image" src="https://github.com/AlluguriSrikrishnateja/cryptography_19CS412_classical_techniques/assets/118343892/2f7866e5-d770-4600-9b0d-41efac2debf9">
 
-### Step 2:
 
-Implementation using C or pyhton code
 
-### Step 3:
+RESULT :
 
-Testing algorithm with different key values. 
-
-## PROGRAM:
-
-## OUTPUT:
-
-## RESULT:
-The program is executed successfully
+Thus the rail fence algorithm had been executed successfully
